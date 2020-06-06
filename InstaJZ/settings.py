@@ -25,7 +25,7 @@ SECRET_KEY = 'a^6h3j!s*zt7$&s%_bsc40p-v*_qceuk=3-3y1$h74u9#0x%_y'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -34,14 +34,18 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'whitenoise.runserver_nostatic',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'Insta',
+    'imagekit',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -49,12 +53,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
 ROOT_URLCONF = 'InstaJZ.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'Templates')],
+        #存放template的相对路径
+        'DIRS': [os.path.join(BASE_DIR, 'Templates')], 
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -117,4 +123,26 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+# STATIC_URL = '/static/'
+# #告诉网页去访问static文件夹下的内容
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+# #登录成功后跳转到posts页面
+# LOGIN_REDIRECT_URL = 'posts'
+# #登出后跳转的页面
+# LOGOUT_REDIRECT_URL = 'posts'
+# #把默认的auth model替换成自定地的model
+# AUTH_USER_MODEL = 'Insta.InstaUser'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+LOGIN_REDIRECT_URL = 'home'
+
+LOGOUT_REDIRECT_URL = 'home'
+
+AUTH_USER_MODEL = 'Insta.InstaUser'

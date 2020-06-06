@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% load custom_tags %}
+
+{% block content %}
+
+<div class="cards-listing">
+    {% for post in object_list %}
+        <div class="row">
+            <div class="card view-update {{ post.pk }}">
+                <div class="card__panel-head">
+                    <div class="poster__info">
+                        <a href="{% url 'profile' post.author.pk %}" class="poster__name">
+                            {% if post.author.profile_pic %}
+                                <img class="poster__profilepic" src="{{ post.author.profile_pic.url }}">
+                            {% endif %}
+                            {{ post.author.username }}
+                        </a>
+                        <span class="poster__timestamp">
+                            {{ post.posted_on|timesince }}
+                        </span>
+                    </div>
+                </div>
+                <a href="{% url 'post' post.pk %}">
+                    <img class="card__main-image" src="{{ post.image.url }}">
+                </a>
+                <div class="card__panel-body">
+                    <div class="likes">
+                        {% if post.get_like_count %}
+                            {{ post.get_like_count }} like{% if post.get_like_count > 1 %}s{% endif %}
+                        {% endif %}
+                    </div>
+                    <ul class="comment-list">
+                        <a class="view-more"></a>
+                        {% for comment in post.comments.all %}
+                        <li class="comment-list__comment">
+                            <a href="{% url 'profile' comment.user.pk %}" class="user">
+                                {{ comment.user.username }}
+                            </a>
+                            <span class="comment">{{ comment.comment }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <section class="input-row">
+                        <i class="fa {% has_user_liked_post post user %} submit-like" aria-hidden="true"></i>
+                        <div class="comment-input-wrapper">
+                            <input class="add-comment" type="text" placeholder="Add a comment...">
+                        </div>
+                        <div class="hidden-data {{ post.pk }}" style="display: none;">
+                            <span class="post-pk">{{ post.pk }}</span>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock content %}
+
+{% comment %}
+<!-- 开始套用base.html的内容-->
+{% extends 'base.html' %}
+
+{% load static %}
+
+<!-- 执行到block，开始替换base.html里面的block和endblock之间的内容，直到endblock -->
+{% block content %}
+
+<div>
+    <a href = "{% url 'make_post' %}"> Make Post</a>
+
+</div>
+
+<div>  
+
+    {% for post in object_list %}
+    <!-- a href是一个refrence，告诉系统点击图片后跳转到哪里，后面是Django语法，告诉系统跳转到名为post——detail的url，因为那个url需要id作为识别，所以加上post.id 作为识别 -->
+        <a href="{% url 'post_detail' post.id %}">
+            <img src="/{{post.image}}">
+        </a>
+    {% endfor %}
+
+</div>
+
+{% endblock content %} 
+{% endcomment %}
+

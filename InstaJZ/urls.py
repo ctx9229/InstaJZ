@@ -1,3 +1,4 @@
+#全局url设定
 """InstaJZ URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -13,10 +14,22 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+# from django.contrib import admin
+# from django.urls import include, path
+# from Insta.views import Signup
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import path, include
 
+# urlpatterns = [
+#     path('admin/', admin.site.urls),
+#     #如果传进来的路径包括insta，那就调用app级别的Insta.urls文件
+#     path('insta/', include('Insta.urls')),
+#     path('auth/', include('django.contrib.auth.urls')),
+#     #定义signup的view
+#     path('auth/sign', Signup.as_view(), name = 'signup'),
+# ]
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('insta/', include('Insta.urls'))
+    path('', include('Insta.urls')),
+    path('auth/', include('django.contrib.auth.urls'))
 ]

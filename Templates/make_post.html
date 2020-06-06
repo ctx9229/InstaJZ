@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>New Post</h1>
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+
+{% endblock content %}
+
+{% comment %} {% extends 'base.html' %}
+{% block content %}
+<!-- 这是一个header -->
+<h1>New Post</h1>
+
+<!-- 因为是上传，所以methond是post，enctype是加密类型 -->
+<form action="" method="post" enctype="multipart/form-data">
+    <!-- Django保护form代码 -->
+    {% csrf_token %}
+    <!-- 把form里每个元素都当做paragraph来显示,这里的form是views.py里面的PostCreateView定义的，在那里定义的field是all，所以会把所有的field显示出来 -->
+    {{ form.as_p }} 
+    <button type="submit">Save</button>
+</form>
+{% endblock content %} {% endcomment %}
+
